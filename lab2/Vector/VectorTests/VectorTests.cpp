@@ -1,9 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../../catch2/catch.hpp"
 #include "../Vector/VectorFunctions.h"
-#include <vector>
-#include <iostream>
-#include <sstream>
+#include "../Vector/stdafx.h"
 
 using namespace std;
 

@@ -38,7 +38,7 @@ TEST_CASE("SortVector should sort vector")
 	result.clear();
 }
 
-TEST_CASE("PrintVector should displays array")
+TEST_CASE("Check PrintVector")
 {
 	ostringstream output;
 	vector<double> vect = { 3.66, 6.23, 10 };

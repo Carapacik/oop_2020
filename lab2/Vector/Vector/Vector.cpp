@@ -9,7 +9,7 @@ int main()
 	{
 		vector<double> inputVector = FillVector(cin);
 		if (inputVector.empty())
-			throw exception("Vector is empty");
+			throw VECTOR_IS_EMPTY;
 		else
 		{
 			DivideAllElementsInVectorByHalfMaximum(inputVector);
@@ -18,9 +18,9 @@ int main()
 			return 0;
 		}
 	}
-	catch(const exception& e)
+	catch (const string& errorLine)
 	{
-		cout << e.what() << "\n";
+		cout << errorLine << "\n";
 		return 1;
 	}
 }

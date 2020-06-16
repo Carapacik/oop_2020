@@ -7,7 +7,7 @@ int main()
 {
     string str;
     while (getline(cin, str))
-        cout << HTMLDecode(str) << "\n";
+        cout << HTMLDecode(str) << endl;
 
     return 0;
 }

@@ -45,5 +45,5 @@ void PrintSet(std::ostream& output, std::set<int>& primeNumbers)
 	{
 		output << item << " ";
 	}
-	output << "\n";
+	output << std::endl;
 }

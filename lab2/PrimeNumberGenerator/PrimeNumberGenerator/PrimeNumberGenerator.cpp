@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	}
 	catch (const string& errorLine)
 	{
-		cout << errorLine << "\n";
+		cout << errorLine;
 		return 1;
 	}
 }

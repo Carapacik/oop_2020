@@ -32,3 +32,12 @@ TEST_CASE("Check PrintSet")
 
 	REQUIRE(output.str() == "1 3 7 8 10 44 67 \n");
 }
+
+TEST_CASE("Check max time spent on GeneratePrimeNumbersSet")
+{
+	unsigned int startTime = clock();
+	set<int> primeNumbers = GeneratePrimeNumbersSet(MAX_BORDER);
+	unsigned int endTime = clock();
+
+	REQUIRE(endTime - startTime < MAX_TIME_SPENT);
+}

@@ -5,11 +5,11 @@ void TurnOn(CTVSet& TV, std::ostream& output)
 	if (!TV.IsTurnOn())
 	{
 		TV.TurnOn();
-		output << "TV is turned on\n";
+		output << TV_IS_ON;
 	}
 	else
 	{
-		output << "TV is already on\n";
+		output << ALREADY_ON;
 	}
 }
 
@@ -18,11 +18,11 @@ void TurnOff(CTVSet& TV, std::ostream& output)
 	if (TV.IsTurnOn())
 	{
 		TV.TurnOff();
-		output << "TV is turned off\n";
+		output << TV_IS_OFF;
 	}
 	else
 	{
-		output << "TV is already off\n";
+		output << ALREADY_OFF;
 	}
 }
 
@@ -33,42 +33,41 @@ void SelectChannel(CTVSet& TV, std::istream& input, std::ostream& output)
 	{
 		if (!TV.IsTurnOn())
 		{
-			output << "TV is turned off\nTurn on TV that select channel\n";
+			output << TV_IS_OFF;
 			return;
 		}
 		else if (!TV.IsExist(channel))
 		{
-			output << "Channel doesn't exist\n";
+			output << CHANNEL_NOT_EXIST;
 			return;
 		}
 		TV.SelectChannel(channel);
-		output << "Selected channel " << channel << "\n";
+		output << SELECTED_CHANNEL << channel << std::endl;
 	}
 	else
 	{
-		output << "Input error\n";
+		output << INPUT_ERROR;
 		input.clear();
 	}
 }
 
 void Info(CTVSet& TV, std::ostream& output)
 {
-	output << "TV is turned ";
 	if (TV.IsTurnOn()) 
 	{
-		output << "on\n";
+		output << TV_IS_ON;
 	}
 	else 
 	{
-		output << "off\n";
+		output << TV_IS_OFF;
 	}
-	output << "Current channel " << TV.GetChannel() << "\n";
+	output << CURRENT_CHANNEL << TV.GetChannel() << std::endl;
 }
 
 void SelectPreviousChannel(CTVSet& TV, std::ostream& output)
 {
 	TV.SelectPreviousChannel();
-	output << "Previous channel selected\n";
+	output << PREVIOUS_CHANNEL_SELECTED;
 }
 
 void Controller(CTVSet& TV, std::istream& input, std::ostream& output)
@@ -76,29 +75,29 @@ void Controller(CTVSet& TV, std::istream& input, std::ostream& output)
 	std::string command;
 	while (std::cin >> command)
 	{
-		if (command == "TurnOn")
+		if (command == TURN_ON)
 		{
 			TurnOn(TV, output);
 		}
-		else if (command == "TurnOff")
+		else if (command == TURN_OFF)
 		{
 			TurnOff(TV, output);
 		}
-		else if (command == "SelectChannel")
+		else if (command == SELECT_CHANNEL)
 		{
 			SelectChannel(TV, input, output);
 		}
-		else if (command == "Info")
+		else if (command == INFO)
 		{
 			Info(TV, output);
 		}
-		else if (command == "SelectPreviousChannel")
+		else if (command == SELECT_PREVIOUS_CHANNEL)
 		{
 			SelectPreviousChannel(TV, output);
 		}
 		else
 		{
-			output << "Unknown command. Please close program or use:\n\tTurnOn\n\tTurnOff\n\tSelectChannel\n\tSelectPreviousChannel\n\tInfo\n";
+			output << UNKNOWN_COMMAND;
 		}
 	}
 }

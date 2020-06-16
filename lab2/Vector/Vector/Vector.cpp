@@ -12,7 +12,9 @@ int main()
 			throw VECTOR_IS_EMPTY;
 		else
 		{
-			DivideAllElementsInVectorByHalfMaximum(inputVector);
+			inputVector = DivideAllElementsInVectorByHalfMaximum(inputVector);
+			if (inputVector.size() == 0) 
+				throw MAX_ELEMENT_EQUAL_ZERO;
 			SortVector(inputVector);
 			PrintVector(cout, inputVector);
 			return 0;
@@ -20,7 +22,7 @@ int main()
 	}
 	catch (const string& errorLine)
 	{
-		cout << errorLine << "\n";
+		cout << errorLine << endl;
 		return 1;
 	}
 }

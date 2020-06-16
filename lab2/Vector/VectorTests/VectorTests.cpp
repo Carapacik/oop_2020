@@ -47,3 +47,14 @@ TEST_CASE("Check PrintVector")
 	REQUIRE(output.str() == "3.66 6.23 10 \n");
 	vect.clear();
 }
+
+TEST_CASE("When the maximum element is 0")
+{
+	ostringstream output;
+	vector<double> vect = { -5, -3, -2.2, 0 };
+	vect = DivideAllElementsInVectorByHalfMaximum(vect);
+	vector<double> result;
+
+	REQUIRE(vect.size() == result.size());
+	vect.clear();
+}

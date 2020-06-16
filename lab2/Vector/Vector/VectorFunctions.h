@@ -5,6 +5,6 @@ const std::string MAX_ELEMENT_EQUAL_ZERO = "Max element equal zero. You can't di
 const std::string VECTOR_IS_EMPTY = "Vector is empty";
 
 std::vector<double> FillVector(std::istream& input);
-void DivideAllElementsInVectorByHalfMaximum(std::vector<double>& vect);
+std::vector<double> DivideAllElementsInVectorByHalfMaximum(std::vector<double>& vect);
 void SortVector(std::vector<double>& vect);
 void PrintVector(std::ostream& output, std::vector<double>& vect);

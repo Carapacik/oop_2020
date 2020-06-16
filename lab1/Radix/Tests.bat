@@ -92,8 +92,8 @@ if NOT %VAR% == -4E5 goto err
 IF NOT ERRORLEVEL 0 goto err
 echo Test15 passed
 
-REM Excess character
-%Program% 12 10 11^2
+REM Wrong characte
+%Program% 12 10 11&2
 if NOT ERRORLEVEL 1 goto err
 echo Test16 passed
 

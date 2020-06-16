@@ -9,7 +9,6 @@ const string INVALID_NUMBER_OF_ARGUMENTS = "Invalid number of arguments\nUsage: 
 const string ERROR_IN_NOTATION = "Error in notations\n";
 const string ERROR_IN_VALUE = "Error in <value>\n";
 
-
 struct Arguments 
 {
     int sourceNotation;
@@ -37,6 +36,11 @@ bool CheckNotation(int value)
     return value > 1 && value < 37;
 }
 
+bool CheckSymbolDigit(char symbol)
+{
+    return (symbol >= '0' && symbol <= '9') || (symbol >= 'A' && symbol <= 'Z');
+}
+
 int CalcDigit(char symbol, int radix, bool& isNegative, bool& wasError)
 {
     wasError = true;
@@ -54,15 +58,16 @@ int CalcDigit(char symbol, int radix, bool& isNegative, bool& wasError)
             wasError = false;
     }
     else 
+    {
         return 1;
-
+    }
     if (!wasError && isNegative)
         return number = -number;
 
     return number;
 }
 
-bool CheckMaxexDigit(int a, int b, int& result)
+bool CheckMaxesDigit(int a, int b, int& result)
 {
     if (b > 0)
     {
@@ -157,10 +162,15 @@ int StringToInt(const string& str, int radix, bool& wasError)
     int number = 0;
     for (i; i < str.length() && !wasError; i++)
     {
+        if (!CheckSymbolDigit(str[i]))
+        {
+            wasError = true;
+            return 1;
+        }
         digit = CalcDigit(str[i], radix, isNegative, wasError);
         if (wasError)
             return 1;
-        if (!CheckMaxesRad(number, radix, number) || !CheckMaxexDigit(number, digit, number))
+        if (!CheckMaxesRad(number, radix, number) || !CheckMaxesDigit(number, digit, number))
             wasError = true;
     }
     return number;
@@ -185,7 +195,7 @@ string IntToString(int n, int radix, bool& wasError)
     return result;
 }
 
-bool CheckAndConvert(int sourceNotation, int destinationNotation, const string& value, string& result) 
+bool Convert(int sourceNotation, int destinationNotation, const string& value, string& result) 
 {
     bool wasError = false;
     if (CheckNotation(sourceNotation) && CheckNotation(destinationNotation))
@@ -211,9 +221,9 @@ int main(int argc, char* argv[])
         return 1;
 
     string afterConverResult;
-    if (!CheckAndConvert(args->sourceNotation, args->destinationNotation, args->value, afterConverResult))
+    if (!Convert(args->sourceNotation, args->destinationNotation, args->value, afterConverResult))
         return 1;
 
-    cout << afterConverResult << "\n";
+    cout << afterConverResult << endl;
     return 0;
 }

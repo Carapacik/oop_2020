@@ -12,7 +12,7 @@ const string INVALID_NUMBER_OF_ARGUMENTS = "Invalid number of arguments\nUsage: 
 const string FAILED_TO_OPEN_FOR_READ = "Failed to open for reading ";
 const string INVALID_DATA_IN_FILE = "Invalid data in file ";
 
-typedef double Matrix_3X3[SIZE][SIZE];
+typedef double MatrixSquare[SIZE][SIZE];
 
 struct Arguments
 {
@@ -33,13 +33,13 @@ optional<Arguments> ParseArgs(int argc, char* argv[])
     return args;
 }
 
-bool ReadMatrix(Matrix_3X3 matrix, string& fileName)
+bool ReadMatrix(MatrixSquare matrix, string& fileName)
 {
     ifstream input;
     input.open(fileName);
     if (!(input.is_open()))
     {
-        cout << FAILED_TO_OPEN_FOR_READ << fileName << "\n";
+        cout << FAILED_TO_OPEN_FOR_READ << fileName << endl;
         return false;
     }
     for (size_t i = 0; i < SIZE; i++)
@@ -48,7 +48,7 @@ bool ReadMatrix(Matrix_3X3 matrix, string& fileName)
         {
             if (!(input >> matrix[i][j]))
             {
-                cout << INVALID_DATA_IN_FILE << fileName << "\n";
+                cout << INVALID_DATA_IN_FILE << fileName << endl;
                 return false;
             }
         }
@@ -57,7 +57,7 @@ bool ReadMatrix(Matrix_3X3 matrix, string& fileName)
     return true;
 }
 
-void Multiplication(Matrix_3X3& matrix1, Matrix_3X3& matrix2, Matrix_3X3& resultMatrix)
+void Multiplication(MatrixSquare& matrix1, MatrixSquare& matrix2, MatrixSquare& resultMatrix)
 {
     for (size_t i = 0; i < SIZE; i++)
     {
@@ -72,9 +72,9 @@ void Multiplication(Matrix_3X3& matrix1, Matrix_3X3& matrix2, Matrix_3X3& result
     }
 }
 
-bool MultiMatrix(string fileName1, string fileName2, Matrix_3X3& resultMatrix)
+bool MultiMatrix(string fileName1, string fileName2, MatrixSquare& resultMatrix)
 {
-    Matrix_3X3 matrix1, matrix2;
+    MatrixSquare matrix1, matrix2;
     if (!ReadMatrix(matrix1, fileName1))
         return false;
 
@@ -86,7 +86,7 @@ bool MultiMatrix(string fileName1, string fileName2, Matrix_3X3& resultMatrix)
     return true;
 }
 
-void PrintMatrix(Matrix_3X3 matrix)
+void PrintMatrix(MatrixSquare matrix)
 {
     ofstream output;
     output.open("output.txt");
@@ -97,7 +97,7 @@ void PrintMatrix(Matrix_3X3 matrix)
             output << "\t";
             output << fixed << setprecision(PRECISION) << matrix[i][j];
         }
-        output << "\n";
+        output << endl;
     }
 }
 
@@ -106,8 +106,7 @@ int main(int argc, char* argv[])
     auto args = ParseArgs(argc, argv);
     if (args == nullopt)
         return 1;
-
-    Matrix_3X3 matrix;
+    MatrixSquare matrix;
     if (!MultiMatrix(args->fileName1, args->fileName2, matrix))
         return 1;
 

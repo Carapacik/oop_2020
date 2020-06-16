@@ -47,6 +47,16 @@ REM Correct 3
 fc output.txt "Tests\output4.txt" > nul || goto err
 echo Test9 passed
 
+REM Correct 4
+%PROGRAM% "Tests\input1.txt" "Tests\input4.txt" || goto err
+fc output.txt "Tests\output5.txt" > nul || goto err
+echo Test10 passed
+
+REM Identity Matrix
+%PROGRAM% "Tests\input1.txt" "Tests\identity.txt" || goto err
+fc output.txt "Tests\output6.txt" > nul || goto err
+echo Test11 passed
+
 REM Tests completed successfully
 echo All test passed successfully
 exit /B 0

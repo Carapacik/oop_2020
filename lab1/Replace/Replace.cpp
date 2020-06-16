@@ -5,6 +5,13 @@
 
 using namespace std;
 
+const string INVALID_NUMBER_OF_ARGUMENTS = "Invalid number of arguments\nUsage: Replace.exe <input file> <output file> <search string> <replace string>\n";
+const string FAILED_TO_OPEN_FOR_READ = "Failed to open for reading ";
+const string FAILED_TO_OPEN_FOR_WRITE = "Failed to open for writing ";
+const string PROBLEB_WITH_READING = "Problem with reading data from inputFile\n";
+const string PROBLEB_WITH_WRITING = "Problem with writing data to outputFile\n";
+const string SEARCH_STRING_EMPTY = "<search string> is empty\n";
+
 struct Arguments
 {
     string inputFileName;
@@ -17,10 +24,7 @@ optional<Arguments> ParseArgs(int argc, char* argv[])
 {
     if (argc != 5)
     {
-        std::cout
-            << "Invalid number of arguments\n"
-            << "Usage: Replace.exe <input file> <output file> <search string> <replace string>" << endl;
-
+        cout << INVALID_NUMBER_OF_ARGUMENTS;
         return nullopt;
     }
 
@@ -50,54 +54,39 @@ string ReplaceString(const string& tempString, const string& searchString, const
     return replacedStr;
 }
 
-bool CopyAndReplace(const string& inputFileName, const string& outputFileName, const string& searchString, const string& replaceString)
+bool Replace(const string& inputFileName, const string& outputFileName, const string& searchString, const string& replaceString)
 {
     ifstream input(inputFileName);
     if (!input.is_open())
     {
-        std::cout
-            << "Failed to open "
-            << inputFileName
-            << " for reading\n";
-
+        cout << FAILED_TO_OPEN_FOR_READ << inputFileName << endl;
         return false;
     }
 
     ofstream output(outputFileName);
     if (!output.is_open())
     {
-        std::cout
-            << "Failed to open "
-            << inputFileName
-            << " for writing\n";
-
+        cout << FAILED_TO_OPEN_FOR_WRITE << inputFileName << endl;
         return false;
     }
 
-    string tempString;
-    while (getline(input, tempString))
+    string inputString;
+    while (getline(input, inputString))
     {
-        output
-            << ReplaceString(tempString, searchString, replaceString)
-            << "\n";
+        output << ReplaceString(inputString, searchString, replaceString) << endl;
     }
 
     if (input.bad())
     {
-        std::cout
-            << "Problem with reading data from a inputFile\n";
-
+        cout << PROBLEB_WITH_READING;
         return false;
     }
 
     if (!output.flush())
     {
-        std::cout
-            << "Problem with writing data to a outputFile\n";
-
+        cout << PROBLEB_WITH_WRITING;
         return false;
     }
-
     return true;
 }
 
@@ -111,13 +100,11 @@ int main(int argc, char* argv[])
 
     if (args->searchString.empty())
     {
-        std::cout 
-            << "<search string> is empty"
-            << '\n';
+        cout << SEARCH_STRING_EMPTY;
         return 1;
     }
 
-    if (!CopyAndReplace(args->inputFileName, args->outputFileName, args->searchString, args->replaceString))
+    if (!Replace(args->inputFileName, args->outputFileName, args->searchString, args->replaceString))
     {
         return 1;
     }

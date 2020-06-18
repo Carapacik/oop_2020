@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <optional>
-#include <string>
 #include <fstream>
 #include <iomanip>
 
@@ -53,7 +52,6 @@ bool ReadMatrix(MatrixSquare matrix, string& fileName)
             }
         }
     }
-
     return true;
 }
 
@@ -86,10 +84,8 @@ bool MultiMatrix(string fileName1, string fileName2, MatrixSquare& resultMatrix)
     return true;
 }
 
-void PrintMatrix(MatrixSquare matrix)
+void PrintMatrix(MatrixSquare matrix, ofstream& output)
 {
-    ofstream output;
-    output.open("output.txt");
     for (size_t i = 0; i < SIZE; i++)
     {
         output << fixed << setprecision(PRECISION) << matrix[i][0];
@@ -106,10 +102,13 @@ int main(int argc, char* argv[])
     auto args = ParseArgs(argc, argv);
     if (args == nullopt)
         return 1;
+
     MatrixSquare matrix;
     if (!MultiMatrix(args->fileName1, args->fileName2, matrix))
         return 1;
 
-    PrintMatrix(matrix);
+    ofstream output;
+    output.open("output.txt");
+    PrintMatrix(matrix, output);
     return 0;
 }

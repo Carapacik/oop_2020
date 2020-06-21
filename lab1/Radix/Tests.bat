@@ -1,8 +1,8 @@
 @echo off
 
-SET PROGRAM="%~1"
+SET Program="%~1"
 
-if %PROGRAM%=="" (
+if %Program%=="" (
 	echo Please specify path to program
 	exit /B 1
 )
@@ -92,7 +92,7 @@ if NOT %VAR% == -4E5 goto err
 IF NOT ERRORLEVEL 0 goto err
 echo Test15 passed
 
-REM Wrong characte
+REM Wrong character
 %Program% 12 10 11&2
 if NOT ERRORLEVEL 1 goto err
 echo Test16 passed

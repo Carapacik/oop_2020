@@ -4,6 +4,8 @@
 class CBody
 {
 public:
+	std::shared_ptr<CBody> FindMaxWeight(const std::vector<std::shared_ptr<CBody>>& bodies);
+	std::shared_ptr<CBody> FindMinWeightInWater(const std::vector<std::shared_ptr<CBody>>& bodies);
 	CBody(std::string type, double density);
 	virtual ~CBody();
 	double GetDensity();

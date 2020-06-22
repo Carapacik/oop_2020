@@ -1,38 +1,5 @@
 #include "Controller.h"
 
-std::shared_ptr<CBody> FindMaxWeight(const std::vector<std::shared_ptr<CBody>>& bodies)
-{
-	double maxWeight = DBL_MIN;
-	int pointer = 0;
-	for (size_t i = 0; i < bodies.size(); i++)
-	{
-		CBody* body = bodies[i].get();
-		double currentWeight = body->GetMass();
-		if (maxWeight < currentWeight)
-		{
-			maxWeight = currentWeight;
-			pointer = i;
-		}
-	}
-	return bodies[pointer];
-}
-
-std::shared_ptr<CBody> FindMinWeightInWater(const std::vector<std::shared_ptr<CBody>>& bodies)
-{
-	double minWeight = DBL_MAX;
-	int pointer = 0;
-	for (size_t i = 0; i < bodies.size(); i++)
-	{
-		CBody* body = bodies[i].get();
-		double currentWeight = (body->GetDensity() - 1000) * body->GetVolume();
-		if (minWeight > currentWeight)
-		{
-			minWeight = currentWeight;
-			pointer = i;
-		}
-	}
-	return bodies[pointer];
-}
 
 bool IsCorrectType(int& type) 
 {
@@ -111,9 +78,11 @@ void Controller(std::vector<std::shared_ptr<CBody>> bodies, std::istream& input,
 	}
 	if (bodies.size() != 0) {
 		output << BIGGEST_WEIGHT << std::endl;
-		Print(FindMaxWeight(bodies), output);
+		std::shared_ptr<CBody> bodyMax;
+		Print(bodyMax->FindMaxWeight(bodies), output);
 		output << LIGHTEST_BODY_IN_WATER << std::endl;
-		Print(FindMinWeightInWater(bodies), output);
+		std::shared_ptr<CBody> bodyMin;
+		Print(bodyMin->FindMinWeightInWater(bodies), output);
 	}
 }
 

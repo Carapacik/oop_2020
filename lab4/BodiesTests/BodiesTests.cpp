@@ -126,59 +126,22 @@ TEST_CASE("CSphere Tests")
 	}
 }
 
-TEST_CASE("FindMinWeightInWater tests")
-{
-	vector<shared_ptr<CBody>> bodies;
-	SECTION("When one body returns it mass")
-	{
-		bodies.push_back(make_shared<CCone>(228, 1.000001, 0.56));
-		shared_ptr<CBody> minWeightWater = FindMinWeightInWater(bodies);
-		REQUIRE(133.608 == minWeightWater.get()->GetMass());
-	}
-
-	SECTION("When two bodies but they're the same type")
-	{
-		bodies.push_back(make_shared<CCone>(2010, 1.000001, 0.666));
-		bodies.push_back(make_shared<CCone>(130, 2, 2));
-		shared_ptr<CBody> minWeightWater = FindMinWeightInWater(bodies);
-		REQUIRE(1089.14 == minWeightWater.get()->GetMass());
-	}
-
-	SECTION("When different bodies are of different types")
-	{
-		bodies.push_back(make_shared<CCone>(23000, 1.000001, 0.666));
-		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		bodies.push_back(make_shared<CParallelepiped>(1010, 1, 1, 2));
-		bodies.push_back(make_shared<CSphere>(400, 2));
-		shared_ptr<CBody> minWeightWater = FindMinWeightInWater(bodies);
-		REQUIRE(13404 == minWeightWater.get()->GetMass());
-	}
-
-	SECTION("When identical bodies")
-	{
-		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		shared_ptr<CBody> minWeightWater = FindMinWeightInWater(bodies);
-		REQUIRE(76 == minWeightWater.get()->GetMass());
-	}
-}
-
 TEST_CASE("FindMaxWeight tests")
 {
 	vector<shared_ptr<CBody>> bodies;
 	SECTION("When one body returns it mass")
 	{
 		bodies.push_back(make_shared<CCone>(228, 1.000001, 0.56));
-		shared_ptr<CBody> maxMassWeight = FindMaxWeight(bodies);
-		REQUIRE(133.608 == maxMassWeight.get()->GetMass());
+		shared_ptr<CBody> maxMassWeight;
+		REQUIRE(133.608 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
 	}
 
 	SECTION("When two bodies but they're the same type")
 	{
 		bodies.push_back(make_shared<CCone>(2010, 1.000001, 0.666));
 		bodies.push_back(make_shared<CCone>(130, 2, 2));
-		shared_ptr<CBody> maxMassWeight = FindMaxWeight(bodies);
-		REQUIRE(1400.97 == maxMassWeight.get()->GetMass());
+		shared_ptr<CBody> maxMassWeight;
+		REQUIRE(1400.97 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
 	}
 
 	SECTION("When different bodies are of different types")
@@ -187,15 +150,52 @@ TEST_CASE("FindMaxWeight tests")
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CParallelepiped>(1010, 1, 1, 2));
 		bodies.push_back(make_shared<CSphere>(400, 2));
-		shared_ptr<CBody> maxMassWeight = FindMaxWeight(bodies);
-		REQUIRE(16031 == maxMassWeight.get()->GetMass());
+		shared_ptr<CBody> maxMassWeight;
+		REQUIRE(16031 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
 	}
 
 	SECTION("When identical bodies")
 	{
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		shared_ptr<CBody> maxMassWeight = FindMaxWeight(bodies);
-		REQUIRE(76 == maxMassWeight.get()->GetMass());
+		shared_ptr<CBody> maxMassWeight;
+		REQUIRE(76 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
+	}
+}
+
+TEST_CASE("FindMinWeightInWater tests")
+{
+	vector<shared_ptr<CBody>> bodies;
+	SECTION("When one body returns it mass")
+	{
+		bodies.push_back(make_shared<CCone>(228, 1.000001, 0.56));
+		shared_ptr<CBody> minWeightWater;
+		REQUIRE(133.608 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+	}
+
+	SECTION("When two bodies but they're the same type")
+	{
+		bodies.push_back(make_shared<CCone>(2010, 1.000001, 0.666));
+		bodies.push_back(make_shared<CCone>(130, 2, 2));
+		shared_ptr<CBody> minWeightWater;
+		REQUIRE(1089.14 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+	}
+
+	SECTION("When different bodies are of different types")
+	{
+		bodies.push_back(make_shared<CCone>(23000, 1.000001, 0.666));
+		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
+		bodies.push_back(make_shared<CParallelepiped>(1010, 1, 1, 2));
+		bodies.push_back(make_shared<CSphere>(400, 2));
+		shared_ptr<CBody> minWeightWater;
+		REQUIRE(13404 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+	}
+
+	SECTION("When identical bodies")
+	{
+		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
+		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
+		shared_ptr<CBody> minWeightWater;
+		REQUIRE(76 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
 	}
 }

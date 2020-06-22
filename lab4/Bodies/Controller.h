@@ -20,8 +20,6 @@ const std::string ENTER_PARALLELEPIPED_HEIGHT = "Enter Parallelepiped height: ";
 const std::string ENTER_PARALLELEPIPED_DEPTH = "Enter Parallelepiped depth: ";
 const std::string ENTER_SPHERE_RADIUS = "Enter Sphere radius: ";
 
-std::shared_ptr<CBody> FindMaxWeight(const std::vector<std::shared_ptr<CBody>>& bodies);
-std::shared_ptr<CBody> FindMinWeightInWater(const std::vector<std::shared_ptr<CBody>>& bodies);
 bool IsCorrectType(int& type);
 void FillBodiesVector(std::vector<std::shared_ptr<CBody>>& bodies, std::istream& input, std::ostream& output);
 void Controller(std::vector<std::shared_ptr<CBody>> bodies, std::istream& input, std::ostream& output);

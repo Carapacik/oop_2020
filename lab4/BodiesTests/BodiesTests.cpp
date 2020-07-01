@@ -13,135 +13,155 @@ using namespace std;
 TEST_CASE("CCone Tests")
 {
 	CCone* cone = new CCone(1110, 1.0004, 0.76);
-	SECTION("Get density return correct density")
+	SECTION("GetDensity return correct density")
 	{
 		REQUIRE(1110 == cone->GetDensity());
 	}
 
-	SECTION("Get baseradius return correct baseradius")
+	SECTION("GetBaseradius return correct baseradius")
 	{
 		REQUIRE(1.0004 == cone->GetBaseRadius());
 	}
 
-	SECTION("Get height return correct height")
+	SECTION("GetHeight return correct height")
 	{
 		REQUIRE(0.76 == cone->GetHeight());
 	}
 
-	SECTION("Get volume return correct calculated volume")
+	SECTION("GetVolume return correct calculated volume")
 	{
 		REQUIRE(0.797 == cone->GetVolume());
 	}
 
-	SECTION("Get mass return correct calculated mass")
+	SECTION("GetMass return correct calculated mass")
 	{
 		REQUIRE(884.67 == cone->GetMass());
+	}
+
+	SECTION("GetResultingForceInWater return correct calculated resulting force")
+	{
+		REQUIRE(876.7 == cone->GetResultingForceInWater());
 	}
 }
 
 TEST_CASE("CCylinder Tests")
 {
 	CCylinder* cylinder = new CCylinder(600, 7, 1.99);
-	SECTION("Get density return correct density")
+	SECTION("GetDensity return correct density")
 	{
 		REQUIRE(600 == cylinder->GetDensity());
 	}
 
-	SECTION("Get baseradius return correct baseradius")
+	SECTION("GetBaseradius return correct baseradius")
 	{
 		REQUIRE(7 == cylinder->GetBaseRadius());
 	}
 
-	SECTION("Get height return correct height")
+	SECTION("GetHeight return correct height")
 	{
 		REQUIRE(1.99 == cylinder->GetHeight());
 	}
 
-	SECTION("Get volume return correct calculated volume")
+	SECTION("GetVolume return correct calculated volume")
 	{
 		REQUIRE(306.337 == cylinder->GetVolume());
 	}
 
-	SECTION("Get mass return correct calculated mass")
+	SECTION("GetMass return correct calculated mass")
 	{
 		REQUIRE(183802.2 == cylinder->GetMass());
+	}
+
+	SECTION("GetResultingForceInWater return correct calculated resulting force")
+	{
+		REQUIRE(-1225348 == cylinder->GetResultingForceInWater());
 	}
 }
 
 TEST_CASE("CParallelepiped Tests")
 {
 	CParallelepiped* parallelepiped = new CParallelepiped(999.998, 0.88, 0.655, 0.3333);
-	SECTION("Get density return correct density")
+	SECTION("GetDensity return correct density")
 	{
 		REQUIRE(999.998 == parallelepiped->GetDensity());
 	}
 
-	SECTION("Get width return correct width")
+	SECTION("GetWidth return correct width")
 	{
 		REQUIRE(0.88 == parallelepiped->GetWidth());
 	}
 
-	SECTION("Get height return correct height")
+	SECTION("GetHeight return correct height")
 	{
 		REQUIRE(0.655 == parallelepiped->GetHeight());
 	}
 
-	SECTION("Get depth return correct depth")
+	SECTION("GetDepth return correct depth")
 	{
 		REQUIRE(0.3333 == parallelepiped->GetDepth());
 	}
 
-	SECTION("Get volume return correct calculated volume")
+	SECTION("GetVolume return correct calculated volume")
 	{
 		REQUIRE(0.192 == parallelepiped->GetVolume());
 	}
 
-	SECTION("Get mass return correct calculated mass")
+	SECTION("GetMass return correct calculated mass")
 	{
 		REQUIRE(192 == parallelepiped->GetMass());
+	}
+
+	SECTION("GetResultingForceInWater return correct calculated resulting force")
+	{
+		REQUIRE(-0.004 == parallelepiped->GetResultingForceInWater());
 	}
 }
 
 TEST_CASE("CSphere Tests")
 {
 	CSphere* sphere = new CSphere(1800, 1.33);
-	SECTION("Get density return correct density")
+	SECTION("GetDensity return correct density")
 	{
 		REQUIRE(1800 == sphere->GetDensity());
 	}	
 
-	SECTION("Get radius return correct radius")
+	SECTION("GetRadius return correct radius")
 	{
 		REQUIRE(1.33 == sphere->GetRadius());
 	}
 
-	SECTION("Get volume return correct calculated volume")
+	SECTION("GetVolume return correct calculated volume")
 	{
 		REQUIRE(9.855 == sphere->GetVolume());
 	}
 
-	SECTION("Get mass return correct calculated mass")
+	SECTION("GetMass return correct calculated mass")
 	{
 		REQUIRE(17739 == sphere->GetMass());
 	}
+
+	SECTION("GetResultingForceInWater return correct calculated resulting force")
+	{
+		REQUIRE(78840 == sphere->GetResultingForceInWater());
+	}
 }
 
-TEST_CASE("FindMaxWeight tests")
+TEST_CASE("FindMaxMass tests")
 {
 	vector<shared_ptr<CBody>> bodies;
 	SECTION("When one body returns it mass")
 	{
 		bodies.push_back(make_shared<CCone>(228, 1.000001, 0.56));
-		shared_ptr<CBody> maxMassWeight;
-		REQUIRE(133.608 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
+		shared_ptr<CBody> maxMass = FindMaxMass(bodies);
+		REQUIRE(133.608 == maxMass->GetMass());
 	}
 
 	SECTION("When two bodies but they're the same type")
 	{
 		bodies.push_back(make_shared<CCone>(2010, 1.000001, 0.666));
 		bodies.push_back(make_shared<CCone>(130, 2, 2));
-		shared_ptr<CBody> maxMassWeight;
-		REQUIRE(1400.97 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
+		shared_ptr<CBody> maxMass = FindMaxMass(bodies);
+		REQUIRE(1400.97 == maxMass->GetMass());
 	}
 
 	SECTION("When different bodies are of different types")
@@ -150,35 +170,35 @@ TEST_CASE("FindMaxWeight tests")
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CParallelepiped>(1010, 1, 1, 2));
 		bodies.push_back(make_shared<CSphere>(400, 2));
-		shared_ptr<CBody> maxMassWeight;
-		REQUIRE(16031 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
+		shared_ptr<CBody> maxMass = FindMaxMass(bodies);
+		REQUIRE(16031 == maxMass->GetMass());
 	}
 
 	SECTION("When identical bodies")
 	{
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		shared_ptr<CBody> maxMassWeight;
-		REQUIRE(76 == (maxMassWeight->FindMaxWeight(bodies))->GetMass());
+		shared_ptr<CBody> maxMass = FindMaxMass(bodies);
+		REQUIRE(76 == maxMass->GetMass());
 	}
 }
 
-TEST_CASE("FindMinWeightInWater tests")
+TEST_CASE("FindMinResultingForceInWater tests")
 {
 	vector<shared_ptr<CBody>> bodies;
 	SECTION("When one body returns it mass")
 	{
 		bodies.push_back(make_shared<CCone>(228, 1.000001, 0.56));
-		shared_ptr<CBody> minWeightWater;
-		REQUIRE(133.608 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+		shared_ptr<CBody> minResultingForceInWater = FindMinResultingForceInWater(bodies);
+		REQUIRE(-4523.92 == minResultingForceInWater->GetResultingForceInWater());
 	}
 
 	SECTION("When two bodies but they're the same type")
 	{
 		bodies.push_back(make_shared<CCone>(2010, 1.000001, 0.666));
 		bodies.push_back(make_shared<CCone>(130, 2, 2));
-		shared_ptr<CBody> minWeightWater;
-		REQUIRE(1089.14 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+		shared_ptr<CBody> minResultingForceInWater = FindMinResultingForceInWater(bodies);
+		REQUIRE(-72888.6 == minResultingForceInWater->GetResultingForceInWater());
 	}
 
 	SECTION("When different bodies are of different types")
@@ -187,15 +207,15 @@ TEST_CASE("FindMinWeightInWater tests")
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CParallelepiped>(1010, 1, 1, 2));
 		bodies.push_back(make_shared<CSphere>(400, 2));
-		shared_ptr<CBody> minWeightWater;
-		REQUIRE(13404 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+		shared_ptr<CBody> minResultingForceInWater = FindMinResultingForceInWater(bodies);
+		REQUIRE(-201060 == minResultingForceInWater->GetResultingForceInWater());
 	}
 
 	SECTION("When identical bodies")
 	{
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
 		bodies.push_back(make_shared<CCylinder>(100, 1.1, 0.2));
-		shared_ptr<CBody> minWeightWater;
-		REQUIRE(76 == (minWeightWater->FindMinWeightInWater(bodies))->GetMass());
+		shared_ptr<CBody> minResultingForceInWater = FindMinResultingForceInWater(bodies);
+		REQUIRE(-6840 == minResultingForceInWater->GetResultingForceInWater());
 	}
 }

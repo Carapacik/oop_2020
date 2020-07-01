@@ -6,46 +6,17 @@ CBody::CBody(std::string type, double density)
 	CBody::type = type;
 }
 
-std::shared_ptr<CBody> CBody::FindMaxWeight(const std::vector<std::shared_ptr<CBody>>& bodies)
-{
-	double maxWeight = DBL_MIN;
-	int pointer = 0;
-	for (size_t i = 0; i < bodies.size(); i++)
-	{
-		CBody* body = bodies[i].get();
-		double currentWeight = body->GetMass();
-		if (maxWeight < currentWeight)
-		{
-			maxWeight = currentWeight;
-			pointer = i;
-		}
-	}
-	return bodies[pointer];
-}
-
-std::shared_ptr<CBody>  CBody::FindMinWeightInWater(const std::vector<std::shared_ptr<CBody>>& bodies)
-{
-	double minWeight = DBL_MAX;
-	int pointer = 0;
-	for (size_t i = 0; i < bodies.size(); i++)
-	{
-		CBody* body = bodies[i].get();
-		double currentWeight = (body->GetDensity() - 1000) * body->GetVolume();
-		if (minWeight > currentWeight)
-		{
-			minWeight = currentWeight;
-			pointer = i;
-		}
-	}
-	return bodies[pointer];
-}
-
 CBody::~CBody()
 {}
 
 double CBody::GetDensity()
 {
 	return CBody::density;
+}
+
+double CBody::GetResultingForceInWater()
+{
+	return round((GetDensity() - LIQUID_DENSITY) * GetVolume() * GRAVITATIONAL_ACCELERATION * 1000) / 1000;
 }
 
 double CBody::GetMass()
@@ -55,14 +26,16 @@ double CBody::GetMass()
 
 void CBody::Print(std::ostream& output)
 {
-	output << "Type: " 
+	output << "Type: "
 		<< type
 		<< "\nDensity: "
 		<< GetDensity()
-		<< "\nVolume: " 
+		<< "\nVolume: "
 		<< GetVolume()
 		<< "\nMass: "
 		<< GetMass()
+		<< "\nResulting Force in water: "
+		<< GetResultingForceInWater()
 		<< std::endl;
 	OtherParameters(output);
 }
